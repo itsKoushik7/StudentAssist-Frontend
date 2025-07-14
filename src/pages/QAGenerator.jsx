@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import Select from "react-select";
 
 export default function QAGenerator() {
   const [form, setForm] = useState({ subject_code: "", unit: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [subjectOptions, setSubjectOptions] = useState([]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,9 +41,32 @@ export default function QAGenerator() {
     }
   };
 
+  const handleSubjectSelect = (selectedOption) => {
+    setForm({ ...form, subject_code: selectedOption?.value || "" });
+  };
+
+  const fetchSubjects = async (inputValue) => {
+    if (!inputValue || inputValue.length < 2) return;
+
+    try {
+      const { data } = await axios.get(
+        `/api/subjects?search=${encodeURIComponent(inputValue)}`
+      );
+      console.log("✅ Subjects fetched:", data);
+
+      const options = data.subjects.map((subject) => ({
+        value: subject.subject_code,
+        label: `${subject.subject_name} (${subject.subject_code})`,
+      }));
+      setSubjectOptions(options);
+    } catch (error) {
+      console.error("❌ Error fetching subjects:", error);
+    }
+  };
+
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-6">
         <div className="w-full max-w-xl flex flex-col items-center animate-fade-in">
           <h1 className="text-xl md:text-2xl text-center font-semibold text-primary-dark mb-2">
@@ -61,7 +86,7 @@ export default function QAGenerator() {
               QA Generator
             </h2>
 
-            <input
+            {/* <input
               type="text"
               name="subject_code"
               placeholder="Subject Code (e.g., CN)"
@@ -69,6 +94,17 @@ export default function QAGenerator() {
               required
               value={form.subject_code}
               onChange={handleChange}
+            /> */}
+            <Select
+              placeholder="Select Required Subject"
+              options={subjectOptions}
+              onInputChange={(val) => {
+                fetchSubjects(val);
+                return val;
+              }}
+              onChange={handleSubjectSelect}
+              isClearable
+              noOptionsMessage={() => "Type at least 2 characters"}
             />
             <input
               type="number"

@@ -2,9 +2,21 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { getUser } from "../api";
+import HowItWorks from "../components/HowItWorks";
+import Testimonials from "../components/Testimonials";
+import BeforeYouUpload from "../components/BeforeYouUpload";
+import AboutTeam from "../components/AboutTeam";
+import ContactSection from "../components/ContactSection";
+import FAQSection from "../components/FAQSection";
 
 export default function Home() {
   const [user, setUser] = useState(null);
+  const [randomLine, setRandomLine] = useState("");
+
+  useEffect(() => {
+    const random = quotes[Math.floor(Math.random() * quotes.length)];
+    setRandomLine(random);
+  }, []);
 
   useEffect(() => {
     async function fetchUser() {
@@ -18,16 +30,32 @@ export default function Home() {
     fetchUser();
   }, []);
 
+  const quotes = [
+    "Empowering one-day batting students 🏏",
+    "Helping you pass the exam you opened yesterday 📚",
+    "One PDF away from passing! 🫡",
+    "Because 5 units in 1 night is a talent 😎",
+    "Engineers don't sleep — we compile dreams 😴💻",
+    "Important questions? We got you. ✅",
+    "From zero prep to hero PDF 📄🔥",
+    "Study like it's the last night before judgment day 🫣",
+    "Relax... we've already done the panic for you 💥",
+    "Helping students hit distinction boundaries 🏏🎓",
+  ];
+
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <section className="p-6 md:p-12 flex flex-col-reverse md:flex-row items-center justify-center bg-gradient-to-r from-blue-50 to-blue-100 min-h-[calc(100vh-64px)] overflow-hidden">
         <div className="max-w-xl space-y-6 animate-fade-in md:pr-8">
           {user ? (
             <>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-800 leading-tight">
+              {/* <h1 className="text-4xl md:text-5xl font-extrabold text-blue-800 leading-tight">
                 Welcome back,{" "}
                 <span className="text-blue-600">{user.name} 👋</span>
+              </h1> */}
+              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-800 leading-tight">
+                {randomLine}
               </h1>
               <p className="text-lg text-gray-700">
                 What would you like to do today?
@@ -55,9 +83,12 @@ export default function Home() {
             </>
           ) : (
             <>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-800 leading-tight">
+              {/* <h1 className="text-4xl md:text-5xl font-extrabold text-blue-800 leading-tight">
                 Empowering <span className="text-blue-600">Tier-2/Tier-3</span>{" "}
                 Students
+              </h1> */}
+              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-800 leading-tight">
+                {randomLine}
               </h1>
               <p className="text-lg text-gray-700">
                 🚀 Facing last-minute exam panic? Unsure about resume building
@@ -93,6 +124,15 @@ export default function Home() {
             className="w-[300px] sm:w-[400px] md:w-[500px] lg:w-[550px] drop-shadow-2xl transition-transform duration-500 hover:scale-105"
           />
         </div>
+      </section>
+      <section>
+        <HowItWorks />
+        <Testimonials />
+        <BeforeYouUpload />
+        <AboutTeam />
+
+        <FAQSection />
+        <ContactSection />
       </section>
     </>
   );

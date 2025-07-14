@@ -22,7 +22,7 @@ export default function Profile() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-blue-50 to-blue-100 p-6 md:p-12 flex flex-col items-center ">
         {user && (
           <div className="z-10 -mb-12 animate-fade-in">

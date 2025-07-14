@@ -122,24 +122,60 @@ export default function Register() {
                 noOptionsMessage={() => "Type at least 2 characters"}
               />
 
-              <input
-                type="text"
+              <select
                 name="branch"
-                placeholder="Branch (e.g., CSE)"
                 required
                 value={form.branch}
                 onChange={handleChange}
-                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <input
-                type="number"
+                className={`w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary ${
+                  form.branch === "" ? "text-gray-400" : "text-black"
+                }`}
+              >
+                <option value="">Select Branch</option>
+                <option value="CSE">
+                  Computer Science and Engineering (CSE)
+                </option>
+                <option value="CSE-AIML">
+                  CSE - Artificial Intelligence & ML
+                </option>
+                <option value="CSE-DS">CSE - Data Science</option>
+                <option value="CSE-CS">CSE - Cybersecurity</option>
+                <option value="ECE">
+                  Electronics and Communication Engineering (ECE)
+                </option>
+                <option value="EEE">
+                  Electrical and Electronics Engineering (EEE)
+                </option>
+                <option value="ME">Mechanical Engineering (ME)</option>
+                <option value="CE">Civil Engineering (CE)</option>
+                <option value="IT">Information Technology (IT)</option>
+                <option value="AIML">
+                  Artificial Intelligence & ML (AIML)
+                </option>
+                <option value="CS">Cyber Security (CS)</option>
+                <option value="DS">Data Science (DS)</option>
+                <option value="Agri">Agricultural Engineering</option>
+                <option value="BioTech">Biotechnology</option>
+                <option value="Mining">Mining Engineering</option>
+                <option value="Others">Other / Interdisciplinary</option>
+              </select>
+              <select
                 name="year"
-                placeholder="Year (e.g., 4)"
                 required
                 value={form.year}
                 onChange={handleChange}
-                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-              />
+                className={`w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary ${
+                  form.year === "" ? "text-gray-400" : "text-black"
+                }`}
+              >
+                <option value="" disabled hidden>
+                  Select Year (e.g., 1st Year)
+                </option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
 
               <button
                 type="submit"

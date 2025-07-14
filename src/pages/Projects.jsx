@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 export default function Projects() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-6">
         <div className="w-full max-w-5xl flex flex-col-reverse md:flex-row items-center justify-center gap-8 animate-fade-in">
           <div className="w-[280px] sm:w-[350px] md:w-[400px] lg:w-[450px] drop-shadow-xl">

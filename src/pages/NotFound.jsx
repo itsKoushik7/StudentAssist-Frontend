@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 export default function NotFound() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}

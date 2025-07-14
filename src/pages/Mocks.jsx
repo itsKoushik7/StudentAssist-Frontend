@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function Mocks() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}

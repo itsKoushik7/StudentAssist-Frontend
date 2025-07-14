@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import Select from "react-select";
 
 export default function UploadPaper() {
   const [form, setForm] = useState({
@@ -13,6 +14,7 @@ export default function UploadPaper() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [subjectOptions, setSubjectOptions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -50,9 +52,32 @@ export default function UploadPaper() {
     }
   };
 
+  const handleSubjectSelect = (selectedOption) => {
+    setForm({ ...form, subject_code: selectedOption?.value || "" });
+  };
+
+  const fetchSubjects = async (inputValue) => {
+    if (!inputValue || inputValue.length < 2) return;
+
+    try {
+      const { data } = await axios.get(
+        `/api/subjects?search=${encodeURIComponent(inputValue)}`
+      );
+      console.log("✅ Subjects fetched:", data);
+
+      const options = data.subjects.map((subject) => ({
+        value: subject.subject_code,
+        label: `${subject.subject_name} (${subject.subject_code})`,
+      }));
+      setSubjectOptions(options);
+    } catch (error) {
+      console.error("❌ Error fetching subjects:", error);
+    }
+  };
+
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-6">
         <div className="w-full max-w-2xl flex flex-col items-center animate-fade-in">
           <h1 className="text-xl md:text-2xl text-center font-semibold text-primary-dark mb-2">
@@ -76,21 +101,26 @@ export default function UploadPaper() {
               <input
                 type="text"
                 name="subject_code"
-                placeholder="Subject Code (e.g., CN)"
+                placeholder="Subject Code"
                 className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
                 required
                 value={form.subject_code}
+                disabled={true}
                 onChange={handleChange}
               />
-              {/* <input
-                type="text"
-                name="year"
-                placeholder="Year (e.g., 2024)"
-                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                required
-                value={form.year}
-                onChange={handleChange}
-              /> */}
+
+              <Select
+                placeholder="Select Required Subject"
+                options={subjectOptions}
+                onInputChange={(val) => {
+                  fetchSubjects(val);
+                  return val;
+                }}
+                onChange={handleSubjectSelect}
+                isClearable
+                noOptionsMessage={() => "Type at least 2 characters"}
+              />
+
               <select
                 name="year"
                 required
