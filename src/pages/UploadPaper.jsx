@@ -82,7 +82,7 @@ export default function UploadPaper() {
                 value={form.subject_code}
                 onChange={handleChange}
               />
-              <input
+              {/* <input
                 type="text"
                 name="year"
                 placeholder="Year (e.g., 2024)"
@@ -90,8 +90,25 @@ export default function UploadPaper() {
                 required
                 value={form.year}
                 onChange={handleChange}
-              />
-              <input
+              /> */}
+              <select
+                name="year"
+                required
+                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                value={form.year}
+                onChange={handleChange}
+              >
+                <option value="">Select Year</option>
+                {Array.from({ length: 2025 - 2016 }, (_, i) => 2017 + i).map(
+                  (year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  )
+                )}
+              </select>
+
+              {/* <input
                 type="text"
                 name="month"
                 placeholder="Month (e.g., May)"
@@ -99,7 +116,35 @@ export default function UploadPaper() {
                 required
                 value={form.month}
                 onChange={handleChange}
-              />
+              /> */}
+              <select
+                name="month"
+                required
+                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                value={form.month}
+                onChange={handleChange}
+              >
+                <option value="">Select Month</option>
+                {[
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December",
+                ].map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+
               <input
                 type="file"
                 name="paper"

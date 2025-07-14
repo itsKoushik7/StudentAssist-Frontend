@@ -18,41 +18,41 @@ export default function Sidebar({ close, user, nav }) {
           {user ? (
             <>
               <Link to="/" onClick={close} className="block hover:underline">
-                🏠 Home
+                Home
               </Link>
               <Link
                 to="/upload"
                 onClick={close}
                 className="block hover:underline"
               >
-                📤 Upload Paper
+                Upload Paper
               </Link>
               <Link
                 to="/qa-generator"
                 onClick={close}
                 className="block hover:underline"
               >
-                📑 QA Generator
+                QA Generator
               </Link>
               <Link
                 to="/projects"
                 onClick={close}
                 className="block hover:underline"
               >
-                📊 Projects
+                Projects
               </Link>
               <Link
                 to="/profile"
                 onClick={close}
                 className="block hover:underline"
               >
-                🙍 Profile
+                Profile
               </Link>
               <button
                 onClick={handleLogout}
                 className="text-red-600 hover:underline"
               >
-                🔓 Logout
+                Logout
               </button>
             </>
           ) : (
