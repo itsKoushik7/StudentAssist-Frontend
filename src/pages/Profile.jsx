@@ -35,7 +35,7 @@ export default function Profile() {
         <div className="mt-16 flex flex-col-reverse md:flex-row items-center justify-evenly w-full max-w-6xl gap-5">
           <div className="w-full max-w-xl bg-white p-8 rounded-xl shadow-xl animate-fade-in">
             <h2 className="text-3xl font-bold text-blue-700 mb-6 text-center">
-              👤 My Profile
+              My Profile
             </h2>
             {user ? (
               <div className="space-y-4 text-gray-700 text-lg">

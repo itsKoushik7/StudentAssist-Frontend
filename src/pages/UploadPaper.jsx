@@ -56,7 +56,7 @@ export default function UploadPaper() {
       <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-6">
         <div className="w-full max-w-2xl flex flex-col items-center animate-fade-in">
           <h1 className="text-xl md:text-2xl text-center font-semibold text-primary-dark mb-2">
-            🙌 Help your juniors and peers!
+            Help your juniors and peers!
           </h1>
           <p className="text-center text-gray-600 max-w-md mb-8">
             Uploading past question papers not only helps you organize your
