@@ -7,6 +7,12 @@ import { getUser } from "../api";
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const users = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    setUserId(users ? users.id : null);
+  }, []);
   const nav = useNavigate();
 
   useEffect(() => {
@@ -23,6 +29,8 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUserId(null);
     setUser(null);
     nav("/login");
   };
@@ -53,9 +61,17 @@ export default function Navbar() {
 
       {user ? (
         <div className="hidden md:flex space-x-6 text-sm font-medium">
-          <Link to="/upload" className="hover:text-blue-300 transition">
-            Upload Paper
+          <Link to="/" className="hover:text-blue-300 transition">
+            Home
           </Link>
+          {userId === 1 && (
+            <>
+              <Link to="/upload" className="hover:text-blue-300 transition">
+                Upload Paper
+              </Link>
+            </>
+          )}
+
           <Link to="/QAGen" className="hover:text-blue-300 transition">
             QA Generator
           </Link>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Select from "react-select";
@@ -15,6 +15,12 @@ export default function UploadPaper() {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const [subjectOptions, setSubjectOptions] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    setUserId(user ? user.id : null);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -183,14 +189,18 @@ export default function UploadPaper() {
                 required
                 onChange={handleChange}
               />
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition-all duration-300 w-full"
-              >
-                {loading ? "Uploading..." : "Upload"}
-              </button>
+              {console.log(localStorage.getItem("user").id)}
+              {userId == 1 && (
+                <>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition-all duration-300 w-full"
+                  >
+                    {loading ? "Uploading..." : "Upload"}
+                  </button>
+                </>
+              )}
 
               {success && (
                 <p className="text-green-600 text-sm text-center">{success}</p>
