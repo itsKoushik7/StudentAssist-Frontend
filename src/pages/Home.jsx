@@ -62,10 +62,10 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to="/upload"
+                  to="/mocks"
                   className="bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-700 transition-all duration-300 shadow-md"
                 >
-                  📤 Upload Paper
+                  📤 Mocks and Blogs
                 </Link>
                 <Link
                   to="/qa-generator"
