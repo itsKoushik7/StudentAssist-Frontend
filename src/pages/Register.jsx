@@ -234,8 +234,11 @@ export default function Register() {
 
     try {
       const { data } = await axios.get(
-        `/api/colleges?search=${encodeURIComponent(inputValue)}`
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/colleges?search=${encodeURIComponent(inputValue)}`
       );
+
       const options = data.colleges.map((college) => ({
         value: college.display_code,
         label: `${college.college_name} (${college.place})`,

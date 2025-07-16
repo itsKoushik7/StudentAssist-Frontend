@@ -19,9 +19,9 @@ export default function QAGenerator() {
     setLoading(true);
 
     try {
-      const response = await axios.get("/api/qa/generate", {
+      axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/qa/generate`, {
         params: form,
-        responseType: "blob", // Receive as file
+        responseType: "blob",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
