@@ -215,6 +215,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Select from "react-select";
 import axios from "axios";
+import * as api from "../api/apiConstants";
+import { get, post } from "../api/apiHelper";
 
 export default function Register() {
   const nav = useNavigate();
@@ -233,13 +235,10 @@ export default function Register() {
     if (!inputValue || inputValue.length < 2) return;
 
     try {
-      const { data } = await axios.get(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/colleges?search=${encodeURIComponent(inputValue)}`
-      );
+      const res = await get(`${api.SEARCH_COLLEGES}?search=${inputValue}`);
+      console.log(res);
 
-      const options = data.colleges.map((college) => ({
+      const options = res.colleges.map((college) => ({
         value: college.display_code,
         label: `${college.college_name} (${college.place})`,
       }));
@@ -260,7 +259,8 @@ export default function Register() {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      await register(form);
+      await post(api.REGISTER, form);
+      // await register(form);
       nav("/verify?email=" + encodeURIComponent(form.email));
     } catch (err) {
       setErr(

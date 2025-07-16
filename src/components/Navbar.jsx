@@ -2,24 +2,35 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import Sidebar from "./Sidebar";
-import { getUser } from "../api";
+import * as api from "../api/apiConstants";
+import { get } from "../api/apiHelper";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState(null);
-  const users = JSON.parse(localStorage.getItem("user"));
-
+  const users = localStorage.getItem("user");
+  console.log(users);
   useEffect(() => {
-    setUserId(users ? users.id : null);
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setUserId(parsedUser.id);
+      } catch (err) {
+        console.error("Error parsing user from localStorage", err);
+      }
+    }
   }, []);
-  const nav = useNavigate();
 
   useEffect(() => {
     async function fetchUser() {
       try {
-        const { data } = await getUser();
-        setUser(data.user);
+        const res = await get(api.ABOUT);
+
+        // setUser(data.user);
       } catch {
         setUser(null);
       }
@@ -28,10 +39,18 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    // const tok = localStorage.getItem("token");
+    // console.log(tok);
+    // const useee = localStorage.getItem("user");
+    // console.log(useee);
+    // const emmm = localStorage.getItem("email");
+    // console.log(emmm);
     setUserId(null);
     setUser(null);
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("email");
     nav("/login");
   };
 
@@ -82,7 +101,7 @@ export default function Navbar() {
             Mocks
           </Link>
           <Link to="/resume" className="hover:text-blue-300 transition">
-            Mocks
+            Resume
           </Link>
         </div>
       ) : (

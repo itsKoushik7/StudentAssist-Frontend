@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import * as api from "../api/apiConstants";
+import { post } from "../api/apiHelper";
 
 export default function VerifyOtp() {
   const nav = useNavigate();
@@ -18,7 +20,7 @@ export default function VerifyOtp() {
     setError("");
 
     try {
-      const res = await axios.post("/api/users/auth/verify", { email, otp });
+      const res = await post(api.VERIFY_OTP, { email, otp });
       setMessage("✅ Verified! Redirecting to login...");
       setTimeout(() => {
         nav("/login");

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Select from "react-select";
+import * as api from "../api/apiConstants";
+import { get } from "../api/apiHelper";
 
 export default function QAGenerator() {
   const [form, setForm] = useState({ subject_code: "", unit: "" });
@@ -19,15 +21,11 @@ export default function QAGenerator() {
     setLoading(true);
 
     try {
-      axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/qa/generate`, {
-        params: form,
-        responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+      const response = await get(api.QA_GEN, form, {
+        responseType: "blob", // ✅ Expect binary PDF
       });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const url = window.URL.createObjectURL(new Blob([response]));
       const a = document.createElement("a");
       a.href = url;
       a.download = `${form.subject_code}_Unit${form.unit}_QA.pdf`;
@@ -35,6 +33,7 @@ export default function QAGenerator() {
       a.click();
       a.remove();
     } catch (err) {
+      console.error("PDF download error", err);
       setError("Failed to generate. Try again.");
     } finally {
       setLoading(false);

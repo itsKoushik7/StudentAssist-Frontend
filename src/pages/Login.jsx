@@ -3,6 +3,8 @@ import { login } from "../api";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
+import { post } from "../api/apiHelper";
+import * as api from "../api/apiConstants";
 
 export default function Login() {
   const nav = useNavigate();
@@ -11,18 +13,27 @@ export default function Login() {
 
   const submit = async (e) => {
     e.preventDefault();
+    setErr("");
+
     try {
-      const res = await login(form);
-      const { token, user } = res.data;
-      if (token) {
-        localStorage.setItem("token", token);
+      const res = await post(api.LOGIN, form);
+      console.log(res);
+      const user = res.user;
+      console.log(user);
+      if (res.token) {
+        localStorage.setItem("token", res.token);
         localStorage.setItem("user", JSON.stringify(user));
+        if (res.refreshToken)
+          localStorage.setItem("refreshToken", refreshToken);
+        if (user?.email) localStorage.setItem("email", user.email);
+
         nav("/");
       } else {
-        setErr("Login failed");
+        setErr("Login failed. Invalid credentials.");
       }
-    } catch {
-      setErr("Login failed");
+    } catch (err) {
+      console.error("Login Error:", err);
+      setErr("Login failed. Please try again.");
     }
   };
 

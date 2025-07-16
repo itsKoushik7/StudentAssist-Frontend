@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { getUser } from "../api";
 import { useNavigate } from "react-router-dom";
-
+import { get } from "../api/apiHelper";
+import * as api from "../api/apiConstants";
 export default function Profile() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -10,8 +10,9 @@ export default function Profile() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const { data } = await getUser();
-        setUser(data.user);
+        const res = await get(api.ABOUT);
+
+        setUser(res.user);
       } catch (err) {
         console.error("Error fetching user:", err);
         navigate("/login");

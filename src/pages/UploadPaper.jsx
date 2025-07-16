@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Select from "react-select";
+import { get } from "../api/apiHelper";
+import * as api from "../api/apiConstants";
 
 export default function UploadPaper() {
   const [form, setForm] = useState({
@@ -17,6 +19,7 @@ export default function UploadPaper() {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [userId, setUserId] = useState(null);
   const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
 
   useEffect(() => {
     setUserId(user ? user.id : null);
@@ -43,12 +46,7 @@ export default function UploadPaper() {
     data.append("paper", form.paper);
 
     try {
-      const res = await axios.post("/api/papers/upload", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await post(api.PAPER_UPLOAD, data);
 
       setSuccess("Uploaded successfully!");
     } catch (err) {
@@ -66,12 +64,10 @@ export default function UploadPaper() {
     if (!inputValue || inputValue.length < 2) return;
 
     try {
-      const { data } = await axios.get(
-        `/api/subjects?search=${encodeURIComponent(inputValue)}`
-      );
-      console.log("✅ Subjects fetched:", data);
+      const res = await get(`${api.SEARCH_SUBJECTS}?search=${inputValue}`);
+      console.log("✅ Subjects fetched:", res);
 
-      const options = data.subjects.map((subject) => ({
+      const options = res.subjects.map((subject) => ({
         value: subject.subject_code,
         label: `${subject.subject_name} (${subject.subject_code})`,
       }));
@@ -189,7 +185,6 @@ export default function UploadPaper() {
                 required
                 onChange={handleChange}
               />
-              {console.log(localStorage.getItem("user").id)}
               {userId == 1 && (
                 <>
                   <button
