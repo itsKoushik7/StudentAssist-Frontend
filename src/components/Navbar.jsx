@@ -81,6 +81,9 @@ export default function Navbar() {
           <Link to="/mocks" className="hover:text-blue-300 transition">
             Mocks
           </Link>
+          <Link to="/resume" className="hover:text-blue-300 transition">
+            Mocks
+          </Link>
         </div>
       ) : (
         <>

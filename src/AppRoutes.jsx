@@ -153,6 +153,7 @@ import Projects from "./pages/Projects";
 import NotFound from "./pages/NotFound";
 import Mocks from "./pages/Mocks";
 import Layout from "./components/Layout";
+import VerifyOtp from "./pages/VerifyOtp";
 
 export default function AppRoutes() {
   return (
@@ -161,6 +162,7 @@ export default function AppRoutes() {
         {/* Public routes without layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify" element={<VerifyOtp />} />
 
         {/* Routes with shared layout */}
         <Route element={<Layout />}>

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Sidebar({ close, user, nav }) {
+  const [userId, setUserId] = useState(null);
+  const users = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    setUserId(users ? users.id : null);
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem("token");
     close();
@@ -20,13 +26,18 @@ export default function Sidebar({ close, user, nav }) {
               <Link to="/" onClick={close} className="block hover:underline">
                 Home
               </Link>
-              <Link
-                to="/upload"
-                onClick={close}
-                className="block hover:underline"
-              >
-                Upload Paper
-              </Link>
+
+              {userId === 1 && (
+                <>
+                  <Link
+                    to="/upload"
+                    onClick={close}
+                    className="block hover:underline"
+                  >
+                    Upload Paper
+                  </Link>
+                </>
+              )}
               <Link
                 to="/qa-generator"
                 onClick={close}
