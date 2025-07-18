@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, Settings } from "lucide-react";
 import Sidebar from "./Sidebar";
+import SettingsSidebar from "./SettingsSidebar";
 import * as api from "../api/apiConstants";
 import { get } from "../api/apiHelper";
 
 export default function Navbar() {
+  const nav = useNavigate();
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
   const users = localStorage.getItem("user");
   console.log(users);
   useEffect(() => {
@@ -39,15 +43,8 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    // const tok = localStorage.getItem("token");
-    // console.log(tok);
-    // const useee = localStorage.getItem("user");
-    // console.log(useee);
-    // const emmm = localStorage.getItem("email");
-    // console.log(emmm);
     setUserId(null);
     setUser(null);
-
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("email");
@@ -141,11 +138,25 @@ export default function Navbar() {
             >
               Logout
             </button>
+            {/* <button
+              onClick={() => setSettingsOpen(true)}
+              title="Settings"
+              className="text-white hover:text-blue-300 transition hover:scale-110"
+            >
+              <Settings size={24} />
+            </button> */}
+            <Link to="/settings" title="Settings">
+              <Settings
+                size={24}
+                className="text-white hover:text-blue-300 transition hover:scale-110"
+              />
+            </Link>
           </>
         )}
       </div>
 
       {open && <Sidebar close={() => setOpen(false)} user={user} nav={nav} />}
+      {settingsOpen && <SettingsSidebar close={() => setSettingsOpen(false)} />}
     </nav>
   );
 }

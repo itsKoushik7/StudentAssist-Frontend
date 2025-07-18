@@ -29,7 +29,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="bg-gray-100 text-center text-sm py-4 border-t">
+      <footer className="bg-gray-100 text-center text-sm py-4 border-t z-10">
         © {new Date().getFullYear()} StudyBro. All rights reserved.
       </footer>
     </div>

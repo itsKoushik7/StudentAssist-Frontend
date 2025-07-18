@@ -4,6 +4,8 @@
 export const LOGIN = "/users/login";
 export const REGISTER = "/users/register";
 export const VERIFY_OTP = "/users/auth/verify";
+export const CHANGE_PASSWORD = "/users/change-password";
+export const FACE_RECOG = "/users/register-face";
 
 export const ABOUT = "/users/about";
 

@@ -155,6 +155,7 @@ import Mocks from "./pages/Mocks";
 import Layout from "./components/Layout";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResumeForm from "./pages/ResumeForm";
+import SettingsPage from "./pages/SettingsPage";
 
 export default function AppRoutes() {
   return (
@@ -174,6 +175,8 @@ export default function AppRoutes() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/mocks" element={<Mocks />} />
           <Route path="/resume-form" element={<ResumeForm />} />
+          <Route path="/settings" element={<SettingsPage />} />
+
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
