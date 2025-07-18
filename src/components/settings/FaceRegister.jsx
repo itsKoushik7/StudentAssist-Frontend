@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { startRegistration } from "@simplewebauthn/browser";
 
 export default function FaceRegister({ closeModal }) {
   const user = JSON.parse(localStorage.getItem("user"));
