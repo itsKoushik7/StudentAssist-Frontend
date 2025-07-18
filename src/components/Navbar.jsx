@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, Settings } from "lucide-react";
 import Sidebar from "./Sidebar";
-import SettingsSidebar from "./SettingsSidebar";
 import * as api from "../api/apiConstants";
 import { get } from "../api/apiHelper";
 
