@@ -39,7 +39,7 @@ export default function Sidebar({ close, user, nav }) {
                 </>
               )}
               <Link
-                to="/qa-generator"
+                to="/QAGen"
                 onClick={close}
                 className="block hover:underline"
               >

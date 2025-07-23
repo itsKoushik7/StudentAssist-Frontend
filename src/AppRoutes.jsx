@@ -156,6 +156,8 @@ import Layout from "./components/Layout";
 import VerifyOtp from "./pages/VerifyOtp";
 import ResumeForm from "./pages/ResumeForm";
 import SettingsPage from "./pages/SettingsPage";
+import ProjectHelpForm from "./pages/ProjectHelpForm";
+import AdminProjects from "./pages/AdminProjects";
 
 export default function AppRoutes() {
   return (
@@ -176,6 +178,8 @@ export default function AppRoutes() {
           <Route path="/mocks" element={<Mocks />} />
           <Route path="/resume-form" element={<ResumeForm />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/projects/new" element={<ProjectHelpForm />} />
+          <Route path="/admin/projects" element={<AdminProjects />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>

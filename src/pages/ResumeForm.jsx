@@ -2,8 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { post } from "../api/apiHelper";
 import * as api from "../api/apiConstants";
+import FeedbackModal from "../components/FeedbackModal";
 
 export default function ResumeForm() {
+  const [showFeedback, setShowFeedback] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -151,6 +153,7 @@ export default function ResumeForm() {
       document.body.appendChild(a);
       a.click();
       a.remove();
+      setShowFeedback(true);
     } catch (err) {
       console.error("Resume PDF download error:", err);
       setError("Failed to generate resume. Please try again.");
@@ -489,6 +492,11 @@ export default function ResumeForm() {
           className="w-full h-auto max-w-xs"
         />
       </motion.div>
+      <FeedbackModal
+        isOpen={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        context="Resume Generation"
+      />
     </motion.div>
   );
 }

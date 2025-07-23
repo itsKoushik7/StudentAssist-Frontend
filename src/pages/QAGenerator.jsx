@@ -4,8 +4,10 @@ import axios from "axios";
 import Select from "react-select";
 import * as api from "../api/apiConstants";
 import { get } from "../api/apiHelper";
+import FeedbackModal from "../components/FeedbackModal";
 
 export default function QAGenerator() {
+  const [showFeedback, setShowFeedback] = useState(false);
   const [form, setForm] = useState({ subject_code: "", unit: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,7 +24,7 @@ export default function QAGenerator() {
 
     try {
       const response = await get(api.QA_GEN, form, {
-        responseType: "blob", // ✅ Expect binary PDF
+        responseType: "blob",
       });
 
       const url = window.URL.createObjectURL(new Blob([response]));
@@ -32,6 +34,7 @@ export default function QAGenerator() {
       document.body.appendChild(a);
       a.click();
       a.remove();
+      setShowFeedback(true);
     } catch (err) {
       console.error("PDF download error", err);
       setError("Failed to generate. Try again.");
@@ -48,12 +51,14 @@ export default function QAGenerator() {
     if (!inputValue || inputValue.length < 2) return;
 
     try {
-      const { data } = await axios.get(
-        `/api/subjects?search=${encodeURIComponent(inputValue)}`
-      );
-      console.log("✅ Subjects fetched:", data);
+      // const { data } = await axios.get(
+      //   `/api/subjects?search=${encodeURIComponent(inputValue)}`
+      // );
+      const res = await get(`${api.GET_AVAIL_SUBJECTS}?search=${inputValue}`);
 
-      const options = data.subjects.map((subject) => ({
+      console.log("✅ Subjects fetched:", res);
+
+      const options = res.subjects.map((subject) => ({
         value: subject.subject_code,
         label: `${subject.subject_name} (${subject.subject_code})`,
       }));
@@ -131,6 +136,11 @@ export default function QAGenerator() {
           </form>
         </div>
       </div>
+      <FeedbackModal
+        isOpen={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        context="QA Generator"
+      />
     </>
   );
 }

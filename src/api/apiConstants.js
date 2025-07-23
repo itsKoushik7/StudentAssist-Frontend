@@ -11,6 +11,10 @@ export const ABOUT = "/users/about";
 
 export const SEARCH_COLLEGES = "/colleges";
 export const SEARCH_SUBJECTS = "/subjects";
+export const GET_AVAIL_SUBJECTS = "/subjects/available";
 export const PAPER_UPLOAD = "/papers/upload";
 export const QA_GEN = "/qa/generate";
 export const RESUME_GEN = "/resume";
+export const NEW_PROJECT = "/projects/new";
+export const FETCH_ALL_PROJECTS = "/projects/admin/all";
+export const FEEDBACK = "/feedback";
