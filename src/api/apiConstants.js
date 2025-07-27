@@ -1,5 +1,3 @@
-// src/api/apiConstants.js
-
 // Auth
 export const LOGIN = "/users/login";
 export const REGISTER = "/users/register";

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Select from "react-select";
-import { get } from "../api/apiHelper";
+import { get, post } from "../api/apiHelper";
 import * as api from "../api/apiConstants";
 
 export default function UploadPaper() {
@@ -19,18 +19,28 @@ export default function UploadPaper() {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [userId, setUserId] = useState(null);
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   useEffect(() => {
     setUserId(user ? user.id : null);
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value,
-    }));
+    const { name, value, files, type } = e.target;
+    console.log("Changed field:", name);
+    if (type === "file") {
+      console.log("File selected:", files[0]);
+      // const uploadedFile = files[0];
+      setForm((prev) => ({
+        ...prev,
+        [name]: files[0], // safe: only assign if it's a file input
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+    console.log("Updated form state:", form);
   };
 
   const handleSubmit = async (e) => {
@@ -39,24 +49,54 @@ export default function UploadPaper() {
     setSuccess(null);
     setError(null);
 
+    if (!form.paper || !(form.paper instanceof File)) {
+      setError("Please select a valid PDF file.");
+      setLoading(false);
+      return;
+    }
+
+    console.log("Form state before FormData:", form);
+    console.log("Paper file:", form.paper);
+
     const data = new FormData();
+    console.log("Creating FormData...", data);
     data.append("subject_code", form.subject_code);
     data.append("year", form.year);
     data.append("month", form.month);
     data.append("paper", form.paper);
+    console.log("FormData created:", data);
+
+    // Log FormData contents
+    console.log("FormData contents:");
+    for (let [key, value] of data.entries()) {
+      console.log(`${key}:`, value);
+    }
 
     try {
-      const res = await post(api.PAPER_UPLOAD, data);
+      // const res = await post(api.PAPER_UPLOAD, data);
+      const res = await axios.post(
+        "http://localhost:5000/api/papers/upload",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // ✅ Let axios handle boundary
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // optional if required
+          },
+        }
+      );
+      console.log("✅ Upload response:", res);
 
       setSuccess("Uploaded successfully!");
     } catch (err) {
-      setError("Failed to upload. Try again.");
+      console.error("❌ Upload error:", err?.response?.data?.message);
+      setError(err?.response?.data?.message || "Failed to upload. Try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleSubjectSelect = (selectedOption) => {
+    console.log("Selected subject:", selectedOption);
     setForm({ ...form, subject_code: selectedOption?.value || "" });
   };
 
@@ -107,7 +147,8 @@ export default function UploadPaper() {
                 className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
                 required
                 value={form.subject_code}
-                disabled={true}
+                // disabled={true}
+                readOnly
                 onChange={handleChange}
               />
 
@@ -139,16 +180,6 @@ export default function UploadPaper() {
                   )
                 )}
               </select>
-
-              {/* <input
-                type="text"
-                name="month"
-                placeholder="Month (e.g., May)"
-                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                required
-                value={form.month}
-                onChange={handleChange}
-              /> */}
               <select
                 name="month"
                 required
