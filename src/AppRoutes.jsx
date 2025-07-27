@@ -158,6 +158,7 @@ import ResumeForm from "./pages/ResumeForm";
 import SettingsPage from "./pages/SettingsPage";
 import ProjectHelpForm from "./pages/ProjectHelpForm";
 import AdminProjects from "./pages/AdminProjects";
+import ResumeTemplateSelector from "./pages/ResumeTemplateSelector";
 
 export default function AppRoutes() {
   return (
@@ -176,7 +177,11 @@ export default function AppRoutes() {
           <Route path="/QAGen" element={<QAGenerator />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/mocks" element={<Mocks />} />
-          <Route path="/resume-form" element={<ResumeForm />} />
+          <Route
+            path="/resumes/templates"
+            element={<ResumeTemplateSelector />}
+          />
+          <Route path="/resumes/form" element={<ResumeForm />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/projects/new" element={<ProjectHelpForm />} />
           <Route path="/admin/projects" element={<AdminProjects />} />

@@ -53,6 +53,13 @@ export default function Sidebar({ close, user, nav }) {
                 Projects
               </Link>
               <Link
+                to=" /resume/form"
+                onClick={close}
+                className="block hover:underline"
+              >
+                Projects
+              </Link>
+              <Link
                 to="/profile"
                 onClick={close}
                 className="block hover:underline"

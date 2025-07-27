@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { post } from "../api/apiHelper";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as api from "../api/apiConstants";
 import FeedbackModal from "../components/FeedbackModal";
 
 export default function ResumeForm() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const template = queryParams.get("template");
+  console.log("Selected template:", template);
+
+  useEffect(() => {
+    if (template === "minimal") {
+      navigate("/resumes/templates");
+    }
+  }, []);
+
   const [showFeedback, setShowFeedback] = useState(false);
   const [formData, setFormData] = useState({
+    template: template,
     name: "",
     email: "",
     phone: "",
@@ -484,7 +498,7 @@ export default function ResumeForm() {
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed top-0 right-0 w-2/5 h-screen bg-gradient-to-b from-blue-100 to-blue-200 flex items-center justify-center p-4 shadow-lg z-10"
+        className="hidden md:flex fixed top-0 right-0 w-full md:w-2/5 h-screen bg-gradient-to-b from-blue-100 to-blue-200 items-center justify-center p-4 shadow-lg z-10"
       >
         <img
           src="/assets/resume-1.svg"
@@ -492,6 +506,7 @@ export default function ResumeForm() {
           className="w-full h-auto max-w-xs"
         />
       </motion.div>
+
       <FeedbackModal
         isOpen={showFeedback}
         onClose={() => setShowFeedback(false)}
