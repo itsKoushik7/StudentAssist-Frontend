@@ -74,16 +74,12 @@ export default function UploadPaper() {
 
     try {
       // const res = await post(api.PAPER_UPLOAD, data);
-      const res = await axios.post(
-        "http://localhost:5000/api/papers/upload",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // ✅ Let axios handle boundary
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // optional if required
-          },
-        }
-      );
+      const res = await axios.post(`${VITE_API_BASE_URL}/papers/upload`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data", // ✅ Let axios handle boundary
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // optional if required
+        },
+      });
       console.log("✅ Upload response:", res);
 
       setSuccess("Uploaded successfully!");
