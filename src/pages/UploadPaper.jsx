@@ -90,7 +90,10 @@ export default function UploadPaper() {
 
       setSuccess("Uploaded successfully!");
     } catch (err) {
-      console.error("❌ Upload error:", err?.response?.data?.message);
+      console.error(
+        "❌ Upload error:",
+        error?.response?.data || error.message || error
+      );
       setError(err?.response?.data?.message || "Failed to upload. Try again.");
     } finally {
       setLoading(false);
