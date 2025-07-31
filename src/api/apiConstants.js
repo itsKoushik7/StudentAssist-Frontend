@@ -16,3 +16,5 @@ export const RESUME_GEN = "/resume";
 export const NEW_PROJECT = "/projects/new";
 export const FETCH_ALL_PROJECTS = "/projects/admin/all";
 export const FEEDBACK = "/feedback";
+export const MOCK_QUESTIONS = "/mocks/questions";
+export const MOCK_OPTIONS = "/mocks/filters";
