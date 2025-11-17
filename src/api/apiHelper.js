@@ -37,7 +37,6 @@ if (email) {
   axiosApi.defaults.headers.common["email"] = email;
 }
 
-// ✅ Add interceptor to inject token dynamically
 axiosApi.interceptors.request.use(
   (config) => {
     const token = getLocalStorageItem("token");
@@ -50,7 +49,6 @@ axiosApi.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Wrapper methods
 export const get = async (url, params = {}, config = {}) => {
   const response = await axiosApi.get(url, { params, ...config });
   return response.data;
